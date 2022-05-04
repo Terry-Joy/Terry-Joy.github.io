@@ -1,3 +1,11 @@
+---
+title: Go基础学习_2
+tags:
+- golang
+- golang基础学习
+---
+
+
 ## fmt库
 今天主要讲讲go的fmt标准库
 
