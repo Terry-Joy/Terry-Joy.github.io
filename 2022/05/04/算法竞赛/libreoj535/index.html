@@ -16,17 +16,19 @@
   <meta name="author" content="Terryjoy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="「LibreOJ Round #6」花火题意：$n\leq300000$的一个排列，每次能交换相邻两个数，并且有一次机会交换不相邻的两个数，可以不用这个机会。问使这个排列升序最少操作几次。 思路：考虑没有不相邻的话，显然就是逆序对数，对于第二种操作，我们可以把$(i, h_i)$看成平面上的一个点，那么我们只有交换$i, j, i &lt; j且h_i &gt; h_j$的点，才会减少答案，我们把">
+    <meta name="description" content="「LibreOJ Round #6」花火题意：$n \leq 300000$的一个排列，每次能交换相邻两个数，并且有一次机会交换不相邻的两个数，可以不用这个机会。问使这个排列升序最少操作几次。 思路：考虑没有不相邻的话，显然就是逆序对数，对于第二种操作，我们可以把$(i, h_i)$看成平面上的一个点，那么我们只有交换$i, j, i &lt; j且h_i &gt; h_j$的点，才会减少答案，我">
 <meta property="og:type" content="article">
 <meta property="og:title" content="「LibreOJ Round">
 <meta property="og:url" content="http://example.com/2022/05/04/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/libreoj535/index.html">
 <meta property="og:site_name" content="Terryjoy&#39;s Blog">
-<meta property="og:description" content="「LibreOJ Round #6」花火题意：$n\leq300000$的一个排列，每次能交换相邻两个数，并且有一次机会交换不相邻的两个数，可以不用这个机会。问使这个排列升序最少操作几次。 思路：考虑没有不相邻的话，显然就是逆序对数，对于第二种操作，我们可以把$(i, h_i)$看成平面上的一个点，那么我们只有交换$i, j, i &lt; j且h_i &gt; h_j$的点，才会减少答案，我们把">
+<meta property="og:description" content="「LibreOJ Round #6」花火题意：$n \leq 300000$的一个排列，每次能交换相邻两个数，并且有一次机会交换不相邻的两个数，可以不用这个机会。问使这个排列升序最少操作几次。 思路：考虑没有不相邻的话，显然就是逆序对数，对于第二种操作，我们可以把$(i, h_i)$看成平面上的一个点，那么我们只有交换$i, j, i &lt; j且h_i &gt; h_j$的点，才会减少答案，我">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-05-04T12:49:04.833Z">
-<meta property="article:modified_time" content="2022-05-04T12:50:02.598Z">
+<meta property="article:modified_time" content="2022-05-04T12:51:16.888Z">
 <meta property="article:author" content="Terryjoy">
-<meta property="article:tag" content="算法竞赛 - 线段树 - 扫描线">
+<meta property="article:tag" content="算法竞赛">
+<meta property="article:tag" content="线段树">
+<meta property="article:tag" content="扫描线">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -246,7 +248,7 @@
             <h1 style="display: none">「LibreOJ Round</h1>
             
             <div class="markdown-body">
-              <h2 id="「LibreOJ-Round-6」花火"><a href="#「LibreOJ-Round-6」花火" class="headerlink" title="「LibreOJ Round #6」花火"></a>「LibreOJ Round #6」花火</h2><p>题意：$n\leq300000$的一个排列，每次能交换相邻两个数，并且有一次机会交换不相邻的两个数，可以不用这个机会。问使这个排列升序最少操作几次。</p>
+              <h2 id="「LibreOJ-Round-6」花火"><a href="#「LibreOJ-Round-6」花火" class="headerlink" title="「LibreOJ Round #6」花火"></a>「LibreOJ Round #6」花火</h2><p>题意：$n \leq 300000$的一个排列，每次能交换相邻两个数，并且有一次机会交换不相邻的两个数，可以不用这个机会。问使这个排列升序最少操作几次。</p>
 <p>思路：<br>考虑没有不相邻的话，显然就是逆序对数，对于第二种操作，我们可以把$(i, h_i)$看成平面上的一个点，那么我们只有交换$i, j, i &lt; j且h_i &gt; h_j$的点，才会减少答案，我们把交换的两个点看成一个矩阵，贡献是$sum - 矩阵内点数加上 * 2 -1 + 1$，这个应该不难看出。此外，我们发现如果先做操作一，实质上对于任意操作二的贡献是不变的，不难理解，一次交换后把某点变到矩阵中的话，一定是多付出一次操作次数来换取一个矩阵内部点的增加，最后贡献不变。所以我们先考虑操作二再考虑操作一本质是一样的。</p>
 <p>现在问题变成怎么选择一个数对，使得矩阵中的点数最多，暴力枚举点对+逆序对是$O(n^3logn)$的，显然无法通过本题，我们考虑其实对于一个矩阵来说，他左上角和右下角肯定是越往左上和越往右下越优秀，所以左上角和右下角保留的点一定是满足决策单调性的，分治套个数据结构可以做到$O(nlog^2n)$。</p>
 <p>我们考虑另一种更优的方法，<strong>现在我们想知道$O(n^2)$个矩形，一个矩形最多覆盖多少个点，扫描线有个常见问题是，多个矩形，问哪个点被覆盖最多</strong>，我们希望矩阵覆盖更多的点，对于每个点，考虑他对矩阵的贡献，一个点$(i, h_i)$,设$l$为最小的$h_l &gt; h_i$的数，$r$为最大的$h_r &lt; h_i$的数，那么他对左端点在$[l, i - 1]$和右端点在$[i + 1, r]$的$(i, j)$交换数对有贡献，我们可以把$(i, j)$数对再看成另一个二维平面上的点，那么就变成多个矩形，问哪个点覆盖最多的问题，直接扫描线+线段树即可解决，注意一下进出边顺序即可，时间复杂度$O(nlogn)$</p>
@@ -261,7 +263,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B-%E7%BA%BF%E6%AE%B5%E6%A0%91-%E6%89%AB%E6%8F%8F%E7%BA%BF/">算法竞赛 - 线段树 - 扫描线</a>
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%89%AB%E6%8F%8F%E7%BA%BF/">扫描线</a>
                     
                   </div>
                 
