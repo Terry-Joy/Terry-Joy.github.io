@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Terryjoy">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="接口接口可以看成是一种抽象类型，用于告诉”能做什么”的问题。 接口定义12345type nameer interface &amp;#123;	方法名1(参数列表1) 返回值列表1&amp;#125;一般接口类型后面会带er，比如writer, closer。当方法名和接口名首字母都是大写的时候，这个方法可以被接口所在之外的代码访问。 实现接口的条件接口本质上就是规定了需要实现的方法列表，若一个类型实现了接口中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go基础学习_5">
+<meta property="og:url" content="http://example.com/2022/06/01/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_6/index.html">
+<meta property="og:site_name" content="Terryjoy&#39;s Blog">
+<meta property="og:description" content="接口接口可以看成是一种抽象类型，用于告诉”能做什么”的问题。 接口定义12345type nameer interface &amp;#123;	方法名1(参数列表1) 返回值列表1&amp;#125;一般接口类型后面会带er，比如writer, closer。当方法名和接口名首字母都是大写的时候，这个方法可以被接口所在之外的代码访问。 实现接口的条件接口本质上就是规定了需要实现的方法列表，若一个类型实现了接口中">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-01T01:26:43.416Z">
+<meta property="article:modified_time" content="2022-06-01T01:25:48.794Z">
+<meta property="article:author" content="Terryjoy">
+<meta property="article:tag" content="golang">
+<meta property="article:tag" content="golang基础学习">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Go基础学习_5 - Terryjoy&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"jxywBR2FgC2difxgOKDK4RxV-gzGzoHsz","app_key":"daGg8HCSSRK4vRpTqcxWQ4dD","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Go基础学习_5">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-06-01 09:26" pubdate>
+        June 1, 2022 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Go基础学习_5</h1>
+            
+            <div class="markdown-body">
+              <h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>接口可以看成是一种抽象类型，用于告诉”能做什么”的问题。</p>
+<h3 id="接口定义"><a href="#接口定义" class="headerlink" title="接口定义"></a>接口定义</h3><figure class="highlight go"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> nameer <span class="hljs-keyword">interface</span> &#123;<br>	方法名<span class="hljs-number">1</span>(参数列表<span class="hljs-number">1</span>) 返回值列表<span class="hljs-number">1</span><br>&#125;<br>一般接口类型后面会带er，比如writer, closer。<br>当方法名和接口名首字母都是大写的时候，这个方法可以被接口所在之外的代码访问。<br></code></pre></td></tr></table></figure>
+<h3 id="实现接口的条件"><a href="#实现接口的条件" class="headerlink" title="实现接口的条件"></a>实现接口的条件</h3><p>接口本质上就是规定了<strong>需要实现的方法列表</strong>，若一个类型实现了接口中规定的所有方法，我们就称它实现了这个接口。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> writer <span class="hljs-keyword">interface</span> &#123;<br>	write()<br>&#125;<br><span class="hljs-keyword">type</span> P <span class="hljs-keyword">struct</span> &#123;<br><br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(p P)</span> <span class="hljs-title">write</span></span> &#123;<br>	fmt.Println(<span class="hljs-string">&quot;&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>接口其实和c++中的多态有点相似，一个接口，多种方法，当我们遇到这样的需求的时候，可以使用接口实现，减少代码冗余。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs go">所有类型都有一个say的方法。这样我们可以定义一个对应的接口<br><span class="hljs-keyword">type</span> Sayer <span class="hljs-keyword">interface</span> &#123;<br>	Say()<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">MakeHungry</span><span class="hljs-params">(s Sayer)</span></span> &#123;<br>	s.Say()<br>&#125;<br><span class="hljs-keyword">type</span> Cat <span class="hljs-keyword">struct</span>&#123;&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(c Cat)</span> <span class="hljs-title">Say</span><span class="hljs-params">()</span></span> &#123;<br>	fmt.Println(<span class="hljs-string">&quot;喵喵喵~&quot;</span>)<br>&#125;<br><br><span class="hljs-keyword">type</span> Dog <span class="hljs-keyword">struct</span>&#123;&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(d Dog)</span> <span class="hljs-title">Say</span><span class="hljs-params">()</span></span> &#123;<br>	fmt.Println(<span class="hljs-string">&quot;汪汪汪~&quot;</span>)<br>&#125;<br><br>实现了接口类型的变量后，一个接口类型变量能存储所有实现该接口的类型变量<br><span class="hljs-keyword">var</span> x Sayer <br>a := Cat&#123;&#125;<br>b := Dog &#123;&#125;<br>x = a<br>x.Say()<br>x = b<br>x.Say()<br></code></pre></td></tr></table></figure>
+<p><strong>值接收者和指针接收者</strong><br>对于某个固定的接口，我们使用不同类型实现该接口，使用值接收者实现接口之后，不管是结构体类型还是对应的结构体指针类型的变量都可以赋值给该接口变量。假如使用指针求值，则结构体类型不能直接赋值。</p>
+<p><strong>一个类型可以实现多个接口</strong><br>比如对于Sayer和writer可以分开实现且不影响。</p>
+<p><strong>多种类型可以实现同一接口</strong><br>比如人可以move, 狗也可以move</p>
+<p>接口的所有方法不一定完全由某一类型实现，可以通过在类型中嵌入其他类型或结构体实现。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// WashingMachine 洗衣机</span><br><span class="hljs-keyword">type</span> WashingMachine <span class="hljs-keyword">interface</span> &#123;<br>	wash()<br>	dry()<br>&#125;<br><br><span class="hljs-comment">// 甩干器</span><br><span class="hljs-keyword">type</span> dryer <span class="hljs-keyword">struct</span>&#123;&#125;<br><br><span class="hljs-comment">// 实现WashingMachine接口的dry()方法</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(d dryer)</span> <span class="hljs-title">dry</span><span class="hljs-params">()</span></span> &#123;<br>	fmt.Println(<span class="hljs-string">&quot;甩一甩&quot;</span>)<br>&#125;<br><br><span class="hljs-comment">// 海尔洗衣机</span><br><span class="hljs-keyword">type</span> haier <span class="hljs-keyword">struct</span> &#123;<br>	dryer <span class="hljs-comment">//嵌入甩干器</span><br>&#125;<br><br><span class="hljs-comment">// 实现WashingMachine接口的wash()方法</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(h haier)</span> <span class="hljs-title">wash</span><span class="hljs-params">()</span></span> &#123;<br>	fmt.Println(<span class="hljs-string">&quot;洗刷刷&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<h3 id="接口组合"><a href="#接口组合" class="headerlink" title="接口组合"></a>接口组合</h3><p>接口与接口之间可以通过互相嵌套形成新的接口类型，例如go标准库io源码中就有很多接口之间互相组合的例子。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> Reader <span class="hljs-keyword">interface</span> &#123;<br>	Read(p []<span class="hljs-keyword">byte</span>) (n <span class="hljs-keyword">int</span>, err error)<br>&#125;<br><br><span class="hljs-keyword">type</span> Writer <span class="hljs-keyword">interface</span> &#123;<br>	Write(p []<span class="hljs-keyword">byte</span>) (n <span class="hljs-keyword">int</span>, err error)<br>&#125;<br><br><span class="hljs-keyword">type</span> Closer <span class="hljs-keyword">interface</span> &#123;<br>	Close() error<br>&#125;<br><br><span class="hljs-comment">// ReadWriter 是组合Reader接口和Writer接口形成的新接口类型</span><br><span class="hljs-keyword">type</span> ReadWriter <span class="hljs-keyword">interface</span> &#123;<br>	Reader<br>	Writer<br>&#125;<br><br><span class="hljs-comment">// ReadCloser 是组合Reader接口和Closer接口形成的新接口类型</span><br><span class="hljs-keyword">type</span> ReadCloser <span class="hljs-keyword">interface</span> &#123;<br>	Reader<br>	Closer<br>&#125;<br><br><span class="hljs-comment">// WriteCloser 是组合Writer接口和Closer接口形成的新接口类型</span><br><span class="hljs-keyword">type</span> WriteCloser <span class="hljs-keyword">interface</span> &#123;<br>	Writer<br>	Closer<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>对于多种接口组合形成的新接口类型，同样只需要实现新接口类型中规定的所有方法就算实现了该接口类型。</p>
+<h3 id="空接口"><a href="#空接口" class="headerlink" title="空接口"></a>空接口</h3><p><strong>空接口可以用于实现泛型</strong></p>
+<p>空接口指没有定义任何方法的接口类型，所以任何类型都可以视为实现了空接口，因此，空接口类型的变量可以用于存储任意类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">//可以接收任意类型的函数参数</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">show</span><span class="hljs-params">(a <span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> &#123;<br><br>&#125;<br><br><span class="hljs-comment">//作为map的值，存储任意值的字典。</span><br><span class="hljs-keyword">var</span> x = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]<span class="hljs-keyword">interface</span>&#123;&#125;)<br></code></pre></td></tr></table></figure>
+<h3 id="接口值"><a href="#接口值" class="headerlink" title="接口值"></a>接口值</h3><p>我们把接口类型看成是抽象类型，接口值实际上是由两个部分组成，实现该接口的类型和值。</p>
+<p><strong>我们不能对空接口值调用任何方法，否则会产生panic</strong></p>
+<p>我们要注意，接口值进行比较的时候必须满足接口的动态类型和动态值都相等的时候才相等。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs go">x Mover = <span class="hljs-built_in">new</span>(Dog)<br>y Mover = <span class="hljs-built_in">new</span>(Car)<br><span class="hljs-comment">//x != y</span><br><br>同时，若接口值的动态类型相同，但不支持比较，比较的时候会引发<span class="hljs-built_in">panic</span>。<br></code></pre></td></tr></table></figure>
+<h3 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs go">我们可以借助标准库fmt包的格式化打印获取到接口值的动态类型。<br><span class="hljs-keyword">var</span> x Mover<br>m = &amp;Dog&#123;Name: <span class="hljs-string">&quot;旺财&quot;</span>&#125;<br>fmt.Printf(<span class="hljs-string">&quot;%T\n&quot;</span>, m)<br><br><span class="hljs-keyword">go</span>支持类型断言<br>v, ok = name.(T) <span class="hljs-comment">//ok表示是否为对应的值</span><br><span class="hljs-keyword">if</span> ok &#123;<br><br>&#125; <span class="hljs-keyword">else</span> &#123;<br><br>&#125;<br><br>可以通过<span class="hljs-keyword">switch</span>语句判断一个接口值的多个类型。<br><br><span class="hljs-comment">// justifyType 对传入的空接口类型变量x进行类型断言</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">justifyType</span><span class="hljs-params">(x <span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> &#123;<br>	<span class="hljs-keyword">switch</span> v := x.(<span class="hljs-keyword">type</span>) &#123;<br>	<span class="hljs-keyword">case</span> <span class="hljs-keyword">string</span>:<br>		fmt.Printf(<span class="hljs-string">&quot;x is a string，value is %v\n&quot;</span>, v)<br>	<span class="hljs-keyword">case</span> <span class="hljs-keyword">int</span>:<br>		fmt.Printf(<span class="hljs-string">&quot;x is a int is %v\n&quot;</span>, v)<br>	<span class="hljs-keyword">case</span> <span class="hljs-keyword">bool</span>:<br>		fmt.Printf(<span class="hljs-string">&quot;x is a bool is %v\n&quot;</span>, v)<br>	<span class="hljs-keyword">default</span>:<br>		fmt.Println(<span class="hljs-string">&quot;unsupport type！&quot;</span>)<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>接口总的来说是一种抽象类型，可以看成是多态的一种实现方法，能帮我们隐藏某个功能的具体实现，但是我们不能盲目使用接口，不要为了使用接口类型而增加不必要的抽象，只有当多个具体类型以相同方式进行处理时才需要定义接口。</strong></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/golang/">golang</a>
+                    
+                      <a class="hover-with-bg" href="/tags/golang%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">golang基础学习</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/01/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Go基础学习_7</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/01/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_7/">
+                        <span class="hidden-mobile">Go基础学习_6</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'Terry-Joy/commit-utterance');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

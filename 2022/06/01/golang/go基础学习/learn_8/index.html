@@ -16,22 +16,22 @@
   <meta name="author" content="Terryjoy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="指针go里面的指针和c差别在于他是安全指针，无法进行偏移和运算，其他差不多。 里面的指针类型是形如*int这种的。 注意在使用一个指针指向的值时候应该先初始化指针指向的空间 var a* int 1234new和make都可以用于分配内存func new(Type) *Typemake区别于new的地方在于slice, map以及chan的内存创建 类型别名和自定义类型type TypeAlias">
+    <meta name="description" content="go语言并发GoroutineGoroutine是Go程序中最基本的并发执行单元。每一个Go程序至少包含了一个main goroutine。Goroutine 是 Go 语言支持并发的核心，在一个Go程序中同时创建成百上千个goroutine是非常普遍的，一个goroutine会以一个很小的栈开始其生命周期，一般只需要2KB。区别于操作系统线程由系统内核进行调度， goroutine 是由Go运行">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go基础学习_ 4">
-<meta property="og:url" content="http://example.com/2022/05/05/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_4/index.html">
+<meta property="og:title" content="Go基础学习_7">
+<meta property="og:url" content="http://example.com/2022/06/01/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_8/index.html">
 <meta property="og:site_name" content="Terryjoy&#39;s Blog">
-<meta property="og:description" content="指针go里面的指针和c差别在于他是安全指针，无法进行偏移和运算，其他差不多。 里面的指针类型是形如*int这种的。 注意在使用一个指针指向的值时候应该先初始化指针指向的空间 var a* int 1234new和make都可以用于分配内存func new(Type) *Typemake区别于new的地方在于slice, map以及chan的内存创建 类型别名和自定义类型type TypeAlias">
+<meta property="og:description" content="go语言并发GoroutineGoroutine是Go程序中最基本的并发执行单元。每一个Go程序至少包含了一个main goroutine。Goroutine 是 Go 语言支持并发的核心，在一个Go程序中同时创建成百上千个goroutine是非常普遍的，一个goroutine会以一个很小的栈开始其生命周期，一般只需要2KB。区别于操作系统线程由系统内核进行调度， goroutine 是由Go运行">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-05-05T15:13:43.666Z">
-<meta property="article:modified_time" content="2022-05-05T15:14:07.442Z">
+<meta property="article:published_time" content="2022-06-01T01:26:43.420Z">
+<meta property="article:modified_time" content="2022-06-01T01:26:10.038Z">
 <meta property="article:author" content="Terryjoy">
 <meta property="article:tag" content="golang">
 <meta property="article:tag" content="golang基础学习">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>Go基础学习_ 4 - Terryjoy&#39;s Blog</title>
+  <title>Go基础学习_7 - Terryjoy&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -181,7 +181,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Go基础学习_ 4">
+            <span class="h2" id="subtitle" title="Go基础学习_7">
               
             </span>
 
@@ -191,8 +191,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-05-05 23:13" pubdate>
-        May 5, 2022 pm
+      <time datetime="2022-06-01 09:26" pubdate>
+        June 1, 2022 am
       </time>
     </span>
   
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k 字
+      2.4k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16 分钟
+      20 分钟
     </span>
   
 
@@ -248,32 +248,30 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Go基础学习_ 4</h1>
+            <h1 style="display: none">Go基础学习_7</h1>
             
             <div class="markdown-body">
-              <h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>go里面的指针和c差别在于他是安全指针，无法进行偏移和运算，其他差不多。</p>
-<p>里面的指针类型是形如*int这种的。</p>
-<p>注意在使用一个指针指向的值时候应该先初始化指针指向的空间</p>
-<p>var a* int</p>
-<figure class="highlight go"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs go"><span class="hljs-built_in">new</span>和<span class="hljs-built_in">make</span>都可以用于分配内存<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">new</span><span class="hljs-params">(Type)</span> *<span class="hljs-title">Type</span></span><br><br><span class="hljs-built_in">make</span>区别于<span class="hljs-built_in">new</span>的地方在于slice, <span class="hljs-keyword">map</span>以及<span class="hljs-keyword">chan</span>的内存创建<br></code></pre></td></tr></table></figure>
-<h2 id="类型别名和自定义类型"><a href="#类型别名和自定义类型" class="headerlink" title="类型别名和自定义类型"></a>类型别名和自定义类型</h2><p>type TypeAlias = Type</p>
-<p>这是一种定义新类型的方法，具有int对应的特性。<br>type MyInt int </p>
-<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> person <span class="hljs-keyword">struct</span> &#123;<br>	name <span class="hljs-keyword">string</span><br>	city <span class="hljs-keyword">string</span><br>	age <span class="hljs-keyword">int8</span><br>&#125;<br><br>实例化<br><span class="hljs-keyword">var</span> person x1<br>x1.name = xx<br><br>匿名结构体<br><span class="hljs-keyword">var</span> user <span class="hljs-keyword">struct</span> &#123;Name <span class="hljs-keyword">string</span>; Age <span class="hljs-keyword">int</span>&#125;<br>user.Name = <span class="hljs-string">&quot;&quot;</span><br>user.Age = <span class="hljs-number">18</span><br><br>使用<span class="hljs-built_in">new</span>对结构体实例化<br><span class="hljs-keyword">var</span> p2 = <span class="hljs-built_in">new</span>(person)<br>注意对于指针和对象，都是直接用.来修改和使用成员<br>p2.name = xx<br><br>通过&amp;对结构体取地址相当于对该结构体类型进行了一次<span class="hljs-built_in">new</span>实例操作<br>p3 := &amp;person&#123;&#125;<br>p3.name = <span class="hljs-string">&quot;&quot;</span><br>p3.age = xx<br></code></pre></td></tr></table></figure>
-<h3 id="结构体初始化"><a href="#结构体初始化" class="headerlink" title="结构体初始化"></a>结构体初始化</h3><p>未初始化的结构体，成员变量都是对应其类型的零值。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs go">使用键值对初始化<br><br>p5 := person&#123;<br>	name: <span class="hljs-string">&quot;小王子&quot;</span>,<br>	city: <span class="hljs-string">&quot;北京&quot;</span>,<br>	age:  <span class="hljs-number">18</span>,<br>&#125;<br>fmt.Printf(<span class="hljs-string">&quot;p5=%#v\n&quot;</span>, p5)<br><br>结构体指针也可以进行键值对初始化<br>p6 := &amp;person&#123;<br>	name: <span class="hljs-string">&quot;小王子&quot;</span>,<br>	city: <span class="hljs-string">&quot;北京&quot;</span>,<br>	age:  <span class="hljs-number">18</span>,<br>&#125;<br>fmt.Printf(<span class="hljs-string">&quot;p6=%#v\n&quot;</span>, p6)<br>不写初始值默认是该字段的零值<br><br>使用值的列表初始化<br>p8 := &amp;person&#123;<br>	<span class="hljs-string">&quot;沙河娜扎&quot;</span>,<br>	<span class="hljs-string">&quot;北京&quot;</span>,<br>	<span class="hljs-number">28</span>,<br>&#125;<br>注意这种方式<br><span class="hljs-number">1.</span> 必须初始化结构体的所有字段。<br><span class="hljs-number">2.</span> 初始值的填充顺序必须与字段在结构体中的声明顺序一致。<br><span class="hljs-number">3.</span> 该方式不能和键值初始化方式混用。<br></code></pre></td></tr></table></figure></p>
-<p><br><br><br/><br>结构体的内存布局</p>
-<p><strong>空结构体不占用内存</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs go">自定义构造函数<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">newStudent</span><span class="hljs-params">(name <span class="hljs-keyword">string</span>, age <span class="hljs-keyword">int</span>)</span> *<span class="hljs-title">student</span></span> &#123;<br>	<span class="hljs-keyword">return</span> &amp;student&#123;name: name, age: age&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	f1 := newStudent(<span class="hljs-string">&quot;人&quot;</span>, <span class="hljs-number">90</span>)<br>	fmt.Println(f1)<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="方法和接收者"><a href="#方法和接收者" class="headerlink" title="方法和接收者"></a>方法和接收者</h3><p>接收者可以看成是cpp中this对象，即确定对应的调用对象。</p>
+              <h2 id="go语言并发"><a href="#go语言并发" class="headerlink" title="go语言并发"></a>go语言并发</h2><h3 id="Goroutine"><a href="#Goroutine" class="headerlink" title="Goroutine"></a>Goroutine</h3><p>Goroutine是Go程序中最基本的并发执行单元。每一个Go程序至少包含了一个main goroutine。Goroutine 是 Go 语言支持并发的核心，在一个Go程序中同时创建成百上千个goroutine是非常普遍的，一个goroutine会以一个很小的栈开始其生命周期，一般只需要2KB。区别于操作系统线程由系统内核进行调度， goroutine 是由Go运行时（runtime）负责调度。</p>
+<h4 id="go关键字"><a href="#go关键字" class="headerlink" title="go关键字"></a>go关键字</h4><p>使用goroutine很简单，在对应的函数和方法前面加上go关键字就可以创建一个goroutine了<br><figure class="highlight go"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">go</span> f()<br><br><span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br><br>&#125;()匿名函数调用<br><br></code></pre></td></tr></table></figure></p>
+<p>假如在main goroutine创建了一个默认的goroutine, 那么当main goroutine结束后，所有由 main goroutine 创建的 goroutine 也会一同退出。</p>
+<p>示例<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> &#123;<br>	<span class="hljs-string">&quot;fmt&quot;</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span></span> &#123;<br>	fmt.Println(<span class="hljs-string">&quot;hello&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">go</span> hello()<br>	fmt.Println(<span class="hljs-string">&quot;papa&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure><br>我们发现hello语句并没有被打印出来，这是由于main goroutine执行完结束后，剩余的子Goroutine会退出。</p>
+<h3 id="sync包的WaitGroup"><a href="#sync包的WaitGroup" class="headerlink" title="sync包的WaitGroup"></a>sync包的WaitGroup</h3><p>当你并不关心并发操作的结果或者有其它方式收集并发操作的结果时，WaitGroup是实现等待一组并发操作完成的好方法。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>	<span class="hljs-string">&quot;fmt&quot;</span><br>	<span class="hljs-string">&quot;sync&quot;</span><br>)<br><br><span class="hljs-keyword">var</span> wg sync.WaitGroup<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span></span> &#123;<br>	fmt.Println(<span class="hljs-string">&quot;hello&quot;</span>)<br>	wg.Done() <span class="hljs-comment">//告知当前goroutine完成</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	wg.Add(<span class="hljs-number">1</span>) <span class="hljs-comment">//登记1个goroutine</span><br>	<span class="hljs-keyword">go</span> hello()<br>	fmt.Println(<span class="hljs-string">&quot;hello&quot;</span>)<br>	wg.Wait() <span class="hljs-comment">//阻塞等待登记的goroutine完成	</span><br>&#125;<br></code></pre></td></tr></table></figure><br>可以利用这个同时启动多个Goroutine, 但是要注意这多个Goroutine之间无法确定启动顺序<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>	<span class="hljs-string">&quot;fmt&quot;</span><br>	<span class="hljs-string">&quot;sync&quot;</span><br>)<br><br><span class="hljs-keyword">var</span> wg sync.WaitGroup<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">defer</span> wg.Done() <span class="hljs-comment">//告知当前goroutine完成</span><br>	fmt.Println(<span class="hljs-string">&quot;hello&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ &#123;<br>		wg.Add(<span class="hljs-number">1</span>)<br>		<span class="hljs-keyword">go</span> hello(i)<br>	&#125;<br>	wg.Wait()<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<h3 id="动态栈"><a href="#动态栈" class="headerlink" title="动态栈"></a>动态栈</h3><p>Goroutine的初始栈空间很小（2KB）, 而实际上分配的空间是并不确定的，Go的runtime会自动为Goroutine分配合适的栈空间。</p>
+<h3 id="Go-scheduler"><a href="#Go-scheduler" class="headerlink" title="Go scheduler"></a>Go scheduler</h3><p>Go的调度器采用的GPM调度模型</p>
+<h3 id="GOMAXPROCS"><a href="#GOMAXPROCS" class="headerlink" title="GOMAXPROCS"></a>GOMAXPROCS</h3><p>go运行时的调度器使用GOMAXPROCS参数来确定需要使用多少个OS线程来执行Go代码，现在默认是全部的CPU逻辑核心数。</p>
+<h2 id="channel"><a href="#channel" class="headerlink" title="channel"></a>channel</h2><p>现在很多都使用共享内存进行数据交换，但这种并发模型必须使用互斥量对内存进行加锁，这种做法会造成性能问题。go语言采用的并发模型是CSP, 通过通信共享内存而不是共享内存实现通信。</p>
+<p>channel是goroutine之间的连接，使得一个goroutine可以发送特定值到另一个goroutine。<br>channel遵循先进先出的规则，保证收发数据的顺序。</p>
+<p><strong>channel声明格式如下</strong><br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> ch1 <span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>   <span class="hljs-comment">// 声明一个传递整型的通道</span><br><span class="hljs-keyword">var</span> ch2 <span class="hljs-keyword">chan</span> <span class="hljs-keyword">bool</span>  <span class="hljs-comment">// 声明一个传递布尔型的通道</span><br><span class="hljs-keyword">var</span> ch3 <span class="hljs-keyword">chan</span> []<span class="hljs-keyword">int</span> <span class="hljs-comment">// 声明一个传递int切片的通道</span><br></code></pre></td></tr></table></figure></p>
+<p><strong>channel零值</strong><br>未初始化的通道类型变量其默认零值是$nil$<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> ch <span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>   <br>fmt.Println(ch)<br><br><span class="hljs-comment">//初始化</span><br>ch4 := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>, <span class="hljs-number">1</span>)<br><br>channel有发送、接收、关闭三种操作，发送和接收都使用&lt;-<br>初始化<br>ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>)<br>发送<br>ch &lt;- <span class="hljs-number">10</span><br>接收<br>x := &lt;- ch<br>&lt;- ch <span class="hljs-comment">//从ch中接收值，忽略结果</span><br>关闭<br><span class="hljs-built_in">close</span>(ch)<br></code></pre></td></tr></table></figure></p>
+<p>注意：一个通道值是可以被垃圾回收掉的。通道通常由发送方执行关闭操作，并且只有在接收方明确等待通道关闭的信号时才需要执行关闭操作。它和关闭文件不一样，通常在结束操作之后关闭文件是必须要做的，但关闭通道不是必须的。</p>
+<p>关闭后的通道有以下特点：</p>
 <ul>
-<li>指针类型，会实际修改对应的值<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(name * <span class="hljs-keyword">type</span>)</span> <span class="hljs-title">functionName</span><span class="hljs-params">(params ...)</span></span> &#123;<br><br>&#125;<br><br>若使用值类型，则无法修改对应的值<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(name <span class="hljs-keyword">type</span>)</span> <span class="hljs-title">functionName</span><span class="hljs-params">(params ...)</span></span> &#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
-</li>
+<li>对一个关闭的通道再发送值就会导致 panic。</li>
+<li>对一个关闭的通道进行接收会一直获取值直到通道为空。</li>
+<li>对一个关闭的并且没有值的通道执行接收操作会得到对应类型的零值。</li>
+<li>关闭一个已经关闭的通道会导致 panic。</li>
 </ul>
-<p>一般使用指针类型的接收者，主要是需要修改接收者的值，拷贝的为较大的对象</p>
-<p><strong>实际上go中可以为任意类型添加方法</strong>。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> MyInt <span class="hljs-keyword">int</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(m MyInt)</span> <span class="hljs-title">SayHello</span><span class="hljs-params">()</span></span> &#123;<br>	<br>&#125;<br><span class="hljs-keyword">var</span> xx MyInt    <br>xx.SayHello()<br></code></pre></td></tr></table></figure><br><strong>非本地类型不能定义方法，所以我们不能给别的包的类型定义方法。</strong></p>
-<h3 id="嵌套结构体"><a href="#嵌套结构体" class="headerlink" title="嵌套结构体"></a>嵌套结构体</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> XX <span class="hljs-keyword">struct</span> &#123;<br>	Name <span class="hljs-keyword">string</span><br>&#125;<br><span class="hljs-keyword">type</span> YY <span class="hljs-keyword">struct</span> &#123;<br>	a XX<br>&#125;<br><br>注意如果在结构体内部没有声明变量的名字，可以看成是以类型名作为变量名。<br></code></pre></td></tr></table></figure>
-<h3 id="结构体字段的可见性"><a href="#结构体字段的可见性" class="headerlink" title="结构体字段的可见性"></a>结构体字段的可见性</h3><p>大写字母表示可公开访问，小写表示私有</p>
-<h3 id="结构体与json序列化"><a href="#结构体与json序列化" class="headerlink" title="结构体与json序列化"></a>结构体与json序列化</h3><p>我们可以将结构体转为json字符串，也可以将json字符串转为结构体。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs go">data, err := json.Marshal(c)<br>err := json.Unmarshal([]<span class="hljs-keyword">byte</span>(str), c1)<br></code></pre></td></tr></table></figure></p>
-<p><strong>注意对于传参是slice, map时，是引用类型，传参的时候需要注意修改问题。</strong></p>
+<h3 id="无缓冲通道"><a href="#无缓冲通道" class="headerlink" title="无缓冲通道"></a>无缓冲通道</h3><p>无缓冲通道又被称为阻塞通道。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>)<br>	ch &lt;- <span class="hljs-number">10</span><br>	fmt.Println(<span class="hljs-string">&quot;发送成功&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure><br>执行该程序发现goroutine挂起死锁了，出现了deadlock错误。<br>问题在于无缓冲管道至少需要有一个接收方存在，否则会处于</p>
 
             </div>
             <hr>
@@ -303,18 +301,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/01/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_7/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Go基础学习_6</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/05/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_3/">
-                        <span class="hidden-mobile">Go基础学习_3</span>
+                      <a href="/2022/06/01/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_6/">
+                        <span class="hidden-mobile">Go基础学习_5</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

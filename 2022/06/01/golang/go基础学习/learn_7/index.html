@@ -1,0 +1,573 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Terryjoy">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="反射反射指程序运行期间对程序本身进行访问、检测和修改的能力。支持反射的语言可以在程序编译期将变量的反射信息，如字段名称、类型信息、结构体信息等整合到可执行文件中，并给程序提供接口访问反射信息，这样就可以在程序运行期获取类型的反射信息，并且有能力修改它们。 go使用reflect包访问程序的反射信息。 我们可以使用reflect中的TypeOf和ValueOf来获取任意对象的Value和Type 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go基础学习_6">
+<meta property="og:url" content="http://example.com/2022/06/01/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_7/index.html">
+<meta property="og:site_name" content="Terryjoy&#39;s Blog">
+<meta property="og:description" content="反射反射指程序运行期间对程序本身进行访问、检测和修改的能力。支持反射的语言可以在程序编译期将变量的反射信息，如字段名称、类型信息、结构体信息等整合到可执行文件中，并给程序提供接口访问反射信息，这样就可以在程序运行期获取类型的反射信息，并且有能力修改它们。 go使用reflect包访问程序的反射信息。 我们可以使用reflect中的TypeOf和ValueOf来获取任意对象的Value和Type 1">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-01T01:26:43.416Z">
+<meta property="article:modified_time" content="2022-06-01T01:26:00.939Z">
+<meta property="article:author" content="Terryjoy">
+<meta property="article:tag" content="golang">
+<meta property="article:tag" content="golang基础学习">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Go基础学习_6 - Terryjoy&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"jxywBR2FgC2difxgOKDK4RxV-gzGzoHsz","app_key":"daGg8HCSSRK4vRpTqcxWQ4dD","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Go基础学习_6">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-06-01 09:26" pubdate>
+        June 1, 2022 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      45 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Go基础学习_6</h1>
+            
+            <div class="markdown-body">
+              <h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>反射指程序运行期间对程序本身进行访问、检测和修改的能力。支持反射的语言可以在程序编译期将<strong>变量的反射信息，如字段名称、类型信息、结构体信息</strong>等整合到可执行文件中，并给程序提供接口访问反射信息，这样就可以在程序运行期获取类型的反射信息，并且有能力修改它们。</p>
+<p>go使用reflect包访问程序的反射信息。</p>
+<p>我们可以使用reflect中的TypeOf和ValueOf来获取任意对象的Value和Type</p>
+<figure class="highlight go"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs go">reflect.TypeOf()可以获取值的类型对象<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">F</span><span class="hljs-params">(x <span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> &#123;<br>	a := reflect.TypeOf(x)<br>	fmt.Println(<span class="hljs-string">&quot;type&quot;</span>, a)<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><br/></p>
+<h3 id="type-name和type-kind"><a href="#type-name和type-kind" class="headerlink" title="type name和type  kind"></a>type name和type  kind</h3><p>反射中其实分为type和kind，kind指底层的类型，在反射中，当需要区分指针、结构体等大品种类型，就会用kind。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">reflectType</span><span class="hljs-params">(x <span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> &#123;<br>	t := reflect.TypeOf(x)<br>	fmt.Printf(<span class="hljs-string">&quot;type:%v kind:%v\n&quot;</span>, t.Name(), t.Kind())<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">var</span> a *<span class="hljs-keyword">float32</span> <span class="hljs-comment">// 指针</span><br>	<span class="hljs-keyword">var</span> b myInt    <span class="hljs-comment">// 自定义类型</span><br>	<span class="hljs-keyword">var</span> c <span class="hljs-keyword">rune</span>     <span class="hljs-comment">// 类型别名</span><br>	reflectType(a) <span class="hljs-comment">// type: kind:ptr</span><br>	reflectType(b) <span class="hljs-comment">// type:myInt kind:int64</span><br>	reflectType(c) <span class="hljs-comment">// type:int32 kind:int32</span><br><br>	<span class="hljs-keyword">type</span> person <span class="hljs-keyword">struct</span> &#123;<br>		name <span class="hljs-keyword">string</span><br>		age  <span class="hljs-keyword">int</span><br>	&#125;<br>	<span class="hljs-keyword">type</span> book <span class="hljs-keyword">struct</span>&#123; title <span class="hljs-keyword">string</span> &#125;<br>	<span class="hljs-keyword">var</span> d = person&#123;<br>		name: <span class="hljs-string">&quot;沙河小王子&quot;</span>,<br>		age:  <span class="hljs-number">18</span>,<br>	&#125;<br>	<span class="hljs-keyword">var</span> e = book&#123;title: <span class="hljs-string">&quot;《跟小王子学Go语言》&quot;</span>&#125;<br>	reflectType(d) <span class="hljs-comment">// type:person kind:struct</span><br>	reflectType(e) <span class="hljs-comment">// type:book kind:struct</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>对于go的反射来说，数组、切片、map和指针等类型变量，他们的.name返回空</strong></p>
+<p>下面是reflect包的kind类型<br>，我们可以发现基本底层类型都覆盖了<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> Kind <span class="hljs-keyword">uint</span><br><span class="hljs-keyword">const</span> (<br>    Invalid Kind = <span class="hljs-literal">iota</span>  <span class="hljs-comment">// 非法类型</span><br>    Bool                 <span class="hljs-comment">// 布尔型</span><br>    Int                  <span class="hljs-comment">// 有符号整型</span><br>    Int8                 <span class="hljs-comment">// 有符号8位整型</span><br>    Int16                <span class="hljs-comment">// 有符号16位整型</span><br>    Int32                <span class="hljs-comment">// 有符号32位整型</span><br>    Int64                <span class="hljs-comment">// 有符号64位整型</span><br>    Uint                 <span class="hljs-comment">// 无符号整型</span><br>    Uint8                <span class="hljs-comment">// 无符号8位整型</span><br>    Uint16               <span class="hljs-comment">// 无符号16位整型</span><br>    Uint32               <span class="hljs-comment">// 无符号32位整型</span><br>    Uint64               <span class="hljs-comment">// 无符号64位整型</span><br>    Uintptr              <span class="hljs-comment">// 指针</span><br>    Float32              <span class="hljs-comment">// 单精度浮点数</span><br>    Float64              <span class="hljs-comment">// 双精度浮点数</span><br>    Complex64            <span class="hljs-comment">// 64位复数类型</span><br>    Complex128           <span class="hljs-comment">// 128位复数类型</span><br>    Array                <span class="hljs-comment">// 数组</span><br>    Chan                 <span class="hljs-comment">// 通道</span><br>    Func                 <span class="hljs-comment">// 函数</span><br>    Interface            <span class="hljs-comment">// 接口</span><br>    Map                  <span class="hljs-comment">// 映射</span><br>    Ptr                  <span class="hljs-comment">// 指针</span><br>    Slice                <span class="hljs-comment">// 切片</span><br>    String               <span class="hljs-comment">// 字符串</span><br>    Struct               <span class="hljs-comment">// 结构体</span><br>    UnsafePointer        <span class="hljs-comment">// 底层指针</span><br>)<br></code></pre></td></tr></table></figure></p>
+<h3 id="Value-of"><a href="#Value-of" class="headerlink" title="Value of"></a>Value of</h3><p><strong>reflect.ValeuOf返回的是reflect.Value类型</strong>，包含了原始的值信息，我们可以通过reflect.Value类型提供的获取原始值的方法获取值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">reflectValue</span><span class="hljs-params">(x <span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> &#123;<br>	v := reflect.ValueOf(x)<br>	k := v.Kind()<br>	<span class="hljs-keyword">switch</span> k &#123;<br>	<span class="hljs-keyword">case</span> reflect.Int64:<br>		<span class="hljs-comment">// v.Int()从反射中获取整型的原始值，然后通过int64()强制类型转换</span><br>		fmt.Printf(<span class="hljs-string">&quot;type is int64, value is %d\n&quot;</span>, <span class="hljs-keyword">int64</span>(v.Int()))<br>	<span class="hljs-keyword">case</span> reflect.Float32:<br>		<span class="hljs-comment">// v.Float()从反射中获取浮点型的原始值，然后通过float32()强制类型转换</span><br>		fmt.Printf(<span class="hljs-string">&quot;type is float32, value is %f\n&quot;</span>, <span class="hljs-keyword">float32</span>(v.Float()))<br>	<span class="hljs-keyword">case</span> reflect.Float64:<br>		<span class="hljs-comment">// v.Float()从反射中获取浮点型的原始值，然后通过float64()强制类型转换</span><br>		fmt.Printf(<span class="hljs-string">&quot;type is float64, value is %f\n&quot;</span>, <span class="hljs-keyword">float64</span>(v.Float()))<br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">var</span> a <span class="hljs-keyword">float32</span> = <span class="hljs-number">3.14</span><br>	<span class="hljs-keyword">var</span> b <span class="hljs-keyword">int64</span> = <span class="hljs-number">100</span><br>	reflectValue(a) <span class="hljs-comment">// type is float32, value is 3.140000</span><br>	reflectValue(b) <span class="hljs-comment">// type is int64, value is 100</span><br>	<span class="hljs-comment">// 将int类型的原始值转换为reflect.Value类型</span><br>	c := reflect.ValueOf(<span class="hljs-number">10</span>)<br>	fmt.Printf(<span class="hljs-string">&quot;type c :%T\n&quot;</span>, c) <span class="hljs-comment">// type c :reflect.Value</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="通过反射设置变量的值"><a href="#通过反射设置变量的值" class="headerlink" title="通过反射设置变量的值"></a>通过反射设置变量的值</h3><p>想要在函数中通过反射修改变量的值，需要传递变量地址才能修改相应的值，但是我们可以通过reflect的Elem()方法来获取指针对应的值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;reflect&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">ref1</span><span class="hljs-params">(x <span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> &#123;<br>	a := reflect.ValueOf(x)<br>	<span class="hljs-keyword">if</span> a.Elem().Kind() == reflect.Int64 &#123;<span class="hljs-comment">//通过Elem()可以获取指针对应的值</span><br>		a.Elem().SetInt(<span class="hljs-number">200</span>)<br>	&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">ref2</span><span class="hljs-params">(x <span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> &#123;<br>	a := reflect.ValueOf(x)<br>	<span class="hljs-keyword">if</span> a.Kind() == reflect.Int64 &#123;<br>		a.SetInt(<span class="hljs-number">200</span>)<br>	&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">var</span> a <span class="hljs-keyword">int64</span> = <span class="hljs-number">10</span><br>	<span class="hljs-comment">//ref2(a) 报错，using unaddressable value</span><br>	ref1(&amp;a) <br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h3 id="isNil-和isValid"><a href="#isNil-和isValid" class="headerlink" title="isNil()和isValid()"></a>isNil()和isValid()</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(v Value)</span> <span class="hljs-title">IsNil</span><span class="hljs-params">()</span> <span class="hljs-title">bool</span></span><br></code></pre></td></tr></table></figure>
+<p>IsNil()报告v持有的值是否为nil。v持有的值的分类必须是通道、函数、接口、映射、指针、切片之一；否则IsNil函数会导致panic。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(v Value)</span> <span class="hljs-title">IsValid</span><span class="hljs-params">()</span> <span class="hljs-title">bool</span></span><br></code></pre></td></tr></table></figure>
+<p>IsValid()返回v是否持有一个值，当v是零值时候返回假，此时除了IsValid(), String, Kind之外的方法都会导致panic</p>
+<p>我们一般使用Isnil()来判断指针是否为空，IsValid()用于判定返回值是否有效<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-comment">// *int类型空指针</span><br>	<span class="hljs-keyword">var</span> a *<span class="hljs-keyword">int</span><br>	fmt.Println(<span class="hljs-string">&quot;var a *int IsNil:&quot;</span>, reflect.ValueOf(a).IsNil())<br>	<span class="hljs-comment">// nil值</span><br>	fmt.Println(<span class="hljs-string">&quot;nil IsValid:&quot;</span>, reflect.ValueOf(<span class="hljs-literal">nil</span>).IsValid())<br>	<span class="hljs-comment">// 实例化一个匿名结构体</span><br>	b := <span class="hljs-keyword">struct</span>&#123;&#125;&#123;&#125;<br>	<span class="hljs-comment">// 尝试从结构体中查找&quot;abc&quot;字段</span><br>	fmt.Println(<span class="hljs-string">&quot;不存在的结构体成员:&quot;</span>, reflect.ValueOf(b).FieldByName(<span class="hljs-string">&quot;abc&quot;</span>).IsValid())<br>	<span class="hljs-comment">// 尝试从结构体中查找&quot;abc&quot;方法</span><br>	fmt.Println(<span class="hljs-string">&quot;不存在的结构体方法:&quot;</span>, reflect.ValueOf(b).MethodByName(<span class="hljs-string">&quot;abc&quot;</span>).IsValid())<br>	<span class="hljs-comment">// map</span><br>	c := <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]<span class="hljs-keyword">int</span>&#123;&#125;<br>	<span class="hljs-comment">// 尝试从map中查找一个不存在的键</span><br>	fmt.Println(<span class="hljs-string">&quot;map中不存在的键：&quot;</span>, reflect.ValueOf(c).MapIndex(reflect.ValueOf(<span class="hljs-string">&quot;娜扎&quot;</span>)).IsValid())<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<h3 id="结构体反射"><a href="#结构体反射" class="headerlink" title="结构体反射"></a>结构体反射</h3><p>任意值通过$reflect.TypeOf()$获得反射对象的信息后，如果类型是结构体，可以通过reflect.Type的方法获取与结构体成员相关的方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs go">Field(i <span class="hljs-keyword">int</span>) StructField	根据索引，返回索引对应的结构体字段的信息。<br>NumField() <span class="hljs-keyword">int</span>	 		返回结构体成员字段数量。<br>FieldByName(name <span class="hljs-keyword">string</span>) (StructField, <span class="hljs-keyword">bool</span>)		根据给定字符串返回字符串对应的结构体字段的信息。<br>FieldByIndex(index []<span class="hljs-keyword">int</span>) StructField	多层成员访问时，根据 []<span class="hljs-keyword">int</span> 	提供的每个结构体的字段索引，返回字段的信息。<br>FieldByNameFunc(match <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(<span class="hljs-keyword">string</span>)</span> <span class="hljs-title">bool</span>) <span class="hljs-params">(StructField,<span class="hljs-keyword">bool</span>)</span>		根据传入的匹配函数匹配需要的字段。</span><br>NumMethod() <span class="hljs-keyword">int</span>					返回该类型的方法集中方法的数目<br>Method(<span class="hljs-keyword">int</span>) 					Method	返回该类型方法集中的第i个方法<br>MethodByName(<span class="hljs-keyword">string</span>)(Method, <span class="hljs-keyword">bool</span>)		根据方法名返回该类型方法集中的方法<br></code></pre></td></tr></table></figure>
+<h3 id="struct-Field类型"><a href="#struct-Field类型" class="headerlink" title="struct Field类型"></a>struct Field类型</h3><p>StructField类型用来描述结构体中的一个字段的信息。定义如下<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> StructField <span class="hljs-keyword">struct</span> &#123;<br>    <span class="hljs-comment">// Name是字段的名字。PkgPath是非导出字段的包路径，对导出字段该字段为&quot;&quot;。</span><br>    <span class="hljs-comment">// 参见http://golang.org/ref/spec#Uniqueness_of_identifiers</span><br>    Name    <span class="hljs-keyword">string</span><br>    PkgPath <span class="hljs-keyword">string</span><br>    Type      Type      <span class="hljs-comment">// 字段的类型</span><br>    Tag       StructTag <span class="hljs-comment">// 字段的标签</span><br>    Offset    <span class="hljs-keyword">uintptr</span>   <span class="hljs-comment">// 字段在结构体中的字节偏移量</span><br>    Index     []<span class="hljs-keyword">int</span>     <span class="hljs-comment">// 用于Type.FieldByIndex时的索引切片</span><br>    Anonymous <span class="hljs-keyword">bool</span>      <span class="hljs-comment">// 是否匿名字段</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs go">结构体反射使用示例<br><br><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>	<span class="hljs-string">&quot;fmt&quot;</span><br>	<span class="hljs-string">&quot;reflect&quot;</span><br>)<br><br><span class="hljs-keyword">type</span> P <span class="hljs-keyword">struct</span> &#123;<br>	x <span class="hljs-keyword">int</span> <span class="hljs-string">`json: &quot;file&quot;`</span><br>	y <span class="hljs-keyword">int</span> <span class="hljs-string">`json: &quot;score&quot;`</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	point := P&#123;x: <span class="hljs-number">0</span>, y: <span class="hljs-number">0</span>&#125;<br>	t := reflect.TypeOf(point)<br>	fmt.Println(t.Name(), t.Kind())<br><br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; t.NumField(); i++ &#123;<br>		f := t.Field(i)<br>		fmt.Printf(<span class="hljs-string">&quot;name:%s index:%d type:%v json tag:%v\n&quot;</span>, f.Name, f.Index, f.Type, f.Tag.Get(<span class="hljs-string">&quot;json&quot;</span>))<br>	&#125;<br><br>	<span class="hljs-keyword">if</span> f, ok := t.FieldByName(<span class="hljs-string">&quot;x&quot;</span>); ok &#123;<br>		fmt.Printf(<span class="hljs-string">&quot;name:%s index:%d type:%v json tag:%v\n&quot;</span>, f.Name, f.Index, f.Type, f.Tag.Get(<span class="hljs-string">&quot;json&quot;</span>))<br>	&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<p>反射的坏处</p>
+<ul>
+<li>基于反射的代码是极其脆弱的，反射中的类型错误会在真正运行的时候才会引发panic，那很可能是在代码写完的很长时间之后。</li>
+<li>大量使用反射的代码通常难以理解。</li>
+<li>反射的性能低下，基于反射实现的代码通常比正常代码运行速度慢一到两个数量级。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/golang/">golang</a>
+                    
+                      <a class="hover-with-bg" href="/tags/golang%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">golang基础学习</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/01/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_6/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Go基础学习_5</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/05/golang/go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/learn_4/">
+                        <span class="hidden-mobile">Go基础学习_ 4</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'Terry-Joy/commit-utterance');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
