@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Terryjoy">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="浅谈numpy的使用方法numpy是一个非常强大的python库，机器学习、图像处理和cv都经常用到，主要在于其对多维数组的支持。 大概十年没写python，这里复习一些简单操作 python字符串相关12345678hello &#x3D; &amp;#x27;hello&amp;#x27;    # String literals can use single quotesworld &#x3D; &quot;world&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Terryjoy&#39;s Blog">
+<meta property="og:url" content="http://example.com/2022/06/04/python/numpy/index.html">
+<meta property="og:site_name" content="Terryjoy&#39;s Blog">
+<meta property="og:description" content="浅谈numpy的使用方法numpy是一个非常强大的python库，机器学习、图像处理和cv都经常用到，主要在于其对多维数组的支持。 大概十年没写python，这里复习一些简单操作 python字符串相关12345678hello &#x3D; &amp;#x27;hello&amp;#x27;    # String literals can use single quotesworld &#x3D; &quot;world&amp;quo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s1.ax1x.com/2022/06/04/XdMb7t.jpg">
+<meta property="article:published_time" content="2022-06-04T11:45:59.874Z">
+<meta property="article:modified_time" content="2022-06-05T07:20:57.171Z">
+<meta property="article:author" content="Terryjoy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s1.ax1x.com/2022/06/04/XdMb7t.jpg">
+  
+  
+  <title>Terryjoy&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"jxywBR2FgC2difxgOKDK4RxV-gzGzoHsz","app_key":"daGg8HCSSRK4vRpTqcxWQ4dD","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-06-04 19:45" pubdate>
+        June 4, 2022 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      42 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            <div class="markdown-body">
+              <h1 id="浅谈numpy的使用方法"><a href="#浅谈numpy的使用方法" class="headerlink" title="浅谈numpy的使用方法"></a>浅谈numpy的使用方法</h1><p>numpy是一个非常强大的python库，机器学习、图像处理和cv都经常用到，主要在于其对多维数组的支持。</p>
+<p>大概十年没写python，这里复习一些简单操作</p>
+<h2 id="python字符串相关"><a href="#python字符串相关" class="headerlink" title="python字符串相关"></a>python字符串相关</h2><figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><pre><code class="hljs python">hello = <span class="hljs-string">&#x27;hello&#x27;</span>    <span class="hljs-comment"># String literals can use single quotes</span><br>world = <span class="hljs-string">&quot;world&quot;</span>    <span class="hljs-comment"># or double quotes; it does not matter.</span><br><span class="hljs-built_in">print</span>(hello)       <span class="hljs-comment"># Prints &quot;hello&quot;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(hello))  <span class="hljs-comment"># String length; prints &quot;5&quot;</span><br>hw = hello + <span class="hljs-string">&#x27; &#x27;</span> + world  <span class="hljs-comment"># String concatenation</span><br><span class="hljs-built_in">print</span>(hw)  <span class="hljs-comment"># prints &quot;hello world&quot;</span><br>hw12 = <span class="hljs-string">&#x27;%s %s %d&#x27;</span> % (hello, world, <span class="hljs-number">12</span>)  <span class="hljs-comment"># sprintf style string formatting</span><br><span class="hljs-built_in">print</span>(hw12)  <span class="hljs-comment"># prints &quot;hello world 12&quot;</span><br></code></pre></td></tr></table></figure>
+<p>格式化相关的时候是<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;%s&#x27;</span> % (xx)<br></code></pre></td></tr></table></figure></p>
+<p>相关函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python">s = <span class="hljs-string">&quot;hello&quot;</span><br><span class="hljs-built_in">print</span>(s.capitalize())  <span class="hljs-comment"># Capitalize a string; prints &quot;Hello&quot;</span><br><span class="hljs-built_in">print</span>(s.upper())       <span class="hljs-comment"># Convert a string to uppercase; prints &quot;HELLO&quot;</span><br><span class="hljs-built_in">print</span>(s.rjust(<span class="hljs-number">7</span>))      <span class="hljs-comment"># Right-justify a string, padding with spaces; prints &quot;  hello&quot;</span><br><span class="hljs-built_in">print</span>(s.center(<span class="hljs-number">7</span>))     <span class="hljs-comment"># Center a string, padding with spaces; prints &quot; hello &quot;</span><br><span class="hljs-built_in">print</span>(s.replace(<span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;(ell)&#x27;</span>))  <span class="hljs-comment"># Replace all instances of one substring with another;</span><br>                                <span class="hljs-comment"># prints &quot;he(ell)(ell)o&quot;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;  world &#x27;</span>.strip())  <span class="hljs-comment"># Strip leading and trailing whitespace; prints &quot;world&quot;</span><br><br><span class="hljs-built_in">str</span>.strip([chars]);<br>用于移除开头结尾指定的字符串<br>默认移除头尾\r, \t, \n和空格等字符<br><br>s.replace(<span class="hljs-string">&#x27;old&#x27;</span>, <span class="hljs-string">&#x27;new&#x27;</span>, num)<br>从左到右替换num次<br></code></pre></td></tr></table></figure></p>
+<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">xs = [<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]    <span class="hljs-comment"># Create a list</span><br><span class="hljs-built_in">print</span>(xs, xs[<span class="hljs-number">2</span>])  <span class="hljs-comment"># Prints &quot;[3, 1, 2] 2&quot;</span><br><span class="hljs-built_in">print</span>(xs[-<span class="hljs-number">1</span>])     <span class="hljs-comment"># Negative indices count from the end of the list; prints &quot;2&quot;</span><br>xs[<span class="hljs-number">2</span>] = <span class="hljs-string">&#x27;foo&#x27;</span>     <span class="hljs-comment"># Lists can contain elements of different types</span><br><span class="hljs-built_in">print</span>(xs)         <span class="hljs-comment"># Prints &quot;[3, 1, &#x27;foo&#x27;]&quot;</span><br>xs.append(<span class="hljs-string">&#x27;bar&#x27;</span>)  <span class="hljs-comment"># Add a new element to the end of the list</span><br><span class="hljs-built_in">print</span>(xs)         <span class="hljs-comment"># Prints &quot;[3, 1, &#x27;foo&#x27;, &#x27;bar&#x27;]&quot;</span><br>x = xs.pop()      <span class="hljs-comment"># Remove and return the last element of the list</span><br><span class="hljs-built_in">print</span>(x, xs)      <span class="hljs-comment"># Prints &quot;bar [3, 1, &#x27;foo&#x27;]&quot;</span><br></code></pre></td></tr></table></figure>
+<p><strong>loops</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">遍历索引加对应值<br><span class="hljs-keyword">for</span> <span class="hljs-built_in">id</span>, x <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(animals):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;%d %s&#x27;</span> % (<span class="hljs-built_in">id</span> + <span class="hljs-number">1</span>, x))<br></code></pre></td></tr></table></figure></p>
+<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">a = &#123;<span class="hljs-string">&#x27;xx&#x27;</span>: <span class="hljs-string">&#x27;yy&#x27;</span>&#125;<br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> a:<br>    <span class="hljs-built_in">print</span>(a[k])<br><br><span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> a.items():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;%s %s&#x27;</span>%(k, v))<br><br>nums = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>]<br>even = &#123;x: x ** <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> nums <span class="hljs-keyword">if</span> x % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>&#125;<br><br></code></pre></td></tr></table></figure>
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><p>注意这里的集合与cpp不同，集合是无序的，所以访问元素的顺序也是无序的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">a = &#123;<span class="hljs-string">&#x27;xx&#x27;</span>, <span class="hljs-string">&#x27;yy&#x27;</span>&#125;<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;xx&#x27;</span> <span class="hljs-keyword">in</span> a)<br>a.add(<span class="hljs-string">&#x27;ff&#x27;</span>)<br>a.remove(<span class="hljs-string">&#x27;xx&#x27;</span>)<br><br>遍历<br><span class="hljs-keyword">for</span> <span class="hljs-built_in">id</span>, v <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(a):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;%d %s&#x27;</span> % (<span class="hljs-built_in">id</span>, v))<br><br>sets comprehensions<br><br>a = &#123;<span class="hljs-built_in">int</span>(sqrt(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">30</span>))&#125;<br></code></pre></td></tr></table></figure></p>
+<h3 id="tuples"><a href="#tuples" class="headerlink" title="tuples"></a>tuples</h3><p>元组是（不可变的）有序值列表。 元组在很多方面类似于列表; 其中一个最重要的区别是元组可以用作字典中的键和集合的元素，而列表则不能。 这是一个简单的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">d = &#123;(x, x + <span class="hljs-number">1</span>): x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)&#125;  <span class="hljs-comment"># Create a dictionary with tuple keys</span><br>t = (<span class="hljs-number">5</span>, <span class="hljs-number">6</span>)        <span class="hljs-comment"># Create a tuple</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(t))    <span class="hljs-comment"># Prints &quot;&lt;class &#x27;tuple&#x27;&gt;&quot;</span><br><span class="hljs-built_in">print</span>(d[t])       <span class="hljs-comment"># Prints &quot;5&quot;</span><br><span class="hljs-built_in">print</span>(d[(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)])  <span class="hljs-comment"># Prints &quot;1&quot;</span><br></code></pre></td></tr></table></figure>
+<h2 id="数组基础"><a href="#数组基础" class="headerlink" title="数组基础"></a>数组基础</h2><p>numpy数组是值网络，所有值类型相同。</p>
+<h3 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.array([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>])<br>a = np.zeros((<span class="hljs-number">2</span>,<span class="hljs-number">2</span>))   <span class="hljs-comment"># Create an array of all zeros</span><br><span class="hljs-built_in">print</span>(a)              <span class="hljs-comment"># Prints &quot;[[ 0.  0.]</span><br>                      <span class="hljs-comment">#          [ 0.  0.]]&quot;</span><br><br>b = np.ones((<span class="hljs-number">1</span>,<span class="hljs-number">2</span>))    <span class="hljs-comment"># Create an array of all ones</span><br><span class="hljs-built_in">print</span>(b)              <span class="hljs-comment"># Prints &quot;[[ 1.  1.]]&quot;</span><br><br>c = np.full((<span class="hljs-number">2</span>,<span class="hljs-number">2</span>), <span class="hljs-number">7</span>)  <span class="hljs-comment"># Create a constant array</span><br><span class="hljs-built_in">print</span>(c)               <span class="hljs-comment"># Prints &quot;[[ 7.  7.]</span><br>                       <span class="hljs-comment">#          [ 7.  7.]]&quot;</span><br><br>d = np.eye(<span class="hljs-number">2</span>)         <span class="hljs-comment"># Create a 2x2 identity matrix</span><br><span class="hljs-built_in">print</span>(d)              <span class="hljs-comment"># Prints &quot;[[ 1.  0.]</span><br>                      <span class="hljs-comment">#          [ 0.  1.]]&quot;</span><br><br>e = np.random.random((<span class="hljs-number">2</span>,<span class="hljs-number">2</span>))  <span class="hljs-comment"># Create an array filled with random values</span><br><span class="hljs-built_in">print</span>(e)                     <span class="hljs-comment"># Might print &quot;[[ 0.91940167  0.08143941]</span><br>                             <span class="hljs-comment">#               [ 0.68744134  0.87236687]]&quot;</span><br>np.arrage(start = <span class="hljs-number">0</span>, stop, step = <span class="hljs-number">1</span>, dtype)<br>np.arrage(<span class="hljs-number">5</span>)<span class="hljs-comment">#[0 1 2 3 4 ]</span><br><br><span class="hljs-comment"># 用于生成一维等差数列</span><br>np.linspace(start, stop, num=<span class="hljs-number">50</span>, endpoint=<span class="hljs-literal">True</span>, retstep=<span class="hljs-literal">False</span>, dtype=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="生成多维数组"><a href="#生成多维数组" class="headerlink" title="生成多维数组"></a>生成多维数组</h3><p>可以通过arange + reshape创建<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">20</span>).reshape(<span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure></p>
+<p>也可以通过np.array和np.ones和np.zero创建。</p>
+<p>同理，三维数组的生成可以<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">27</span>).reshape(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure></p>
+<h3 id="多维数组切片"><a href="#多维数组切片" class="headerlink" title="多维数组切片"></a>多维数组切片</h3><p>主要通过逗号分离不同维度<br>两个冒号主要是用于[start = 0::步长]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(a[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>:<span class="hljs-number">4</span>]) <span class="hljs-comment"># &gt;&gt;&gt;[12 13 14]</span><br><span class="hljs-built_in">print</span>(a[<span class="hljs-number">1</span>:<span class="hljs-number">4</span>, <span class="hljs-number">0</span>]) <span class="hljs-comment"># &gt;&gt;&gt;[16 21 26]</span><br><span class="hljs-built_in">print</span>(a[::<span class="hljs-number">2</span>,::<span class="hljs-number">2</span>]) <span class="hljs-comment"># &gt;&gt;&gt;[[11 13 15]</span><br>                  <span class="hljs-comment">#     [21 23 25]</span><br>                  <span class="hljs-comment">#     [31 33 35]]</span><br><span class="hljs-built_in">print</span>(a[:, <span class="hljs-number">1</span>]) <span class="hljs-comment"># &gt;&gt;&gt;[12 17 22 27 32]</span><br></code></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/XdMb7t"><img src="https://s1.ax1x.com/2022/06/04/XdMb7t.jpg" srcset="/img/loading.gif" lazyload alt="XdMb7t.jpg"></a></p>
+<h3 id="数组属性"><a href="#数组属性" class="headerlink" title="数组属性"></a>数组属性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.array([[<span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>],<br>              [<span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>],<br>              [<span class="hljs-number">21</span>, <span class="hljs-number">22</span>, <span class="hljs-number">23</span>, <span class="hljs-number">24</span>, <span class="hljs-number">25</span>],<br>              [<span class="hljs-number">26</span>, <span class="hljs-number">27</span>, <span class="hljs-number">28</span> ,<span class="hljs-number">29</span>, <span class="hljs-number">30</span>],<br>              [<span class="hljs-number">31</span>, <span class="hljs-number">32</span>, <span class="hljs-number">33</span>, <span class="hljs-number">34</span>, <span class="hljs-number">35</span>]])<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(a)) <span class="hljs-comment"># &gt;&gt;&gt;&lt;class &#x27;numpy.ndarray&#x27;&gt;</span><br><span class="hljs-built_in">print</span>(a.dtype) <span class="hljs-comment"># &gt;&gt;&gt;int64 元素类型</span><br><span class="hljs-built_in">print</span>(a.size) <span class="hljs-comment"># &gt;&gt;&gt;25</span><br><span class="hljs-built_in">print</span>(a.shape) <span class="hljs-comment"># &gt;&gt;&gt;(5, 5) 行列数</span><br><span class="hljs-built_in">print</span>(a.itemsize) <span class="hljs-comment"># &gt;&gt;&gt;8 每个元素的字节数</span><br><span class="hljs-built_in">print</span>(a.ndim) <span class="hljs-comment"># &gt;&gt;&gt;2  维度</span><br><span class="hljs-built_in">print</span>(a.nbytes) <span class="hljs-comment"># &gt;&gt;&gt;200 </span><br></code></pre></td></tr></table></figure>
+<h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">25</span>)<br>a = a.reshape((<span class="hljs-number">5</span>, <span class="hljs-number">5</span>)) <span class="hljs-comment">#重新分配行列</span><br><br>b = np.array([<span class="hljs-number">10</span>, <span class="hljs-number">62</span>, <span class="hljs-number">1</span>, <span class="hljs-number">14</span>, <span class="hljs-number">2</span>, <span class="hljs-number">56</span>, <span class="hljs-number">79</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">45</span>,<br>              <span class="hljs-number">4</span>, <span class="hljs-number">92</span>, <span class="hljs-number">5</span>, <span class="hljs-number">55</span>, <span class="hljs-number">63</span>, <span class="hljs-number">43</span>, <span class="hljs-number">35</span>, <span class="hljs-number">6</span>, <span class="hljs-number">53</span>, <span class="hljs-number">24</span>,<br>              <span class="hljs-number">56</span>, <span class="hljs-number">3</span>, <span class="hljs-number">56</span>, <span class="hljs-number">44</span>, <span class="hljs-number">78</span>])<br>b = b.reshape((<span class="hljs-number">5</span>,<span class="hljs-number">5</span>))<br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-built_in">print</span>(a + b)<br><span class="hljs-built_in">print</span>(a - b)<br><span class="hljs-built_in">print</span>(a * b)<br><span class="hljs-built_in">print</span>(a / b)<br><span class="hljs-built_in">print</span>(a ** <span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(a &lt; b) <br><span class="hljs-built_in">print</span>(a &gt; b)<br><span class="hljs-built_in">print</span>(a.dot(b))<br><br><span class="hljs-built_in">print</span>(a.<span class="hljs-built_in">sum</span>()) <span class="hljs-comment">#求和</span><br><span class="hljs-built_in">print</span>(a.<span class="hljs-built_in">max</span>()) <span class="hljs-comment">#最大值</span><br><span class="hljs-built_in">print</span>(a.<span class="hljs-built_in">min</span>()) <span class="hljs-comment">#最小值</span><br><span class="hljs-built_in">print</span>(a.cumsum()) <span class="hljs-comment">#构造前缀和数组</span><br></code></pre></td></tr></table></figure>
+<p><strong>若数组类型相同，所有操作都是对应的，否则若只有一维相同，可以直接对该维全部操作</strong></p>
+<p><strong>np.sum的一些注意事项</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">a = [[ <span class="hljs-number">1.</span>  <span class="hljs-number">2.</span>  <span class="hljs-number">3.</span>  <span class="hljs-number">4.</span>  <span class="hljs-number">5.</span>]<br> [ <span class="hljs-number">6.</span>  <span class="hljs-number">7.</span>  <span class="hljs-number">8.</span>  <span class="hljs-number">9.</span> <span class="hljs-number">10.</span>]<br> [<span class="hljs-number">11.</span> <span class="hljs-number">12.</span> <span class="hljs-number">13.</span> <span class="hljs-number">14.</span> <span class="hljs-number">15.</span>]<br> [<span class="hljs-number">16.</span> <span class="hljs-number">17.</span> <span class="hljs-number">18.</span> <span class="hljs-number">19.</span> <span class="hljs-number">20.</span>]]<br><br><br>如果axis为整数，axis的取值不可大于数组/矩阵的维度，且axis的不同取值会产生不同的结果。<br><br>np.<span class="hljs-built_in">sum</span>(a,axis = <span class="hljs-number">0</span>)<br>axis为<span class="hljs-number">0</span>是压缩行,即将每一列的元素相加,将矩阵压缩为一行，输出：array([<span class="hljs-number">34.</span>, <span class="hljs-number">38.</span>, <span class="hljs-number">42.</span>, <span class="hljs-number">46.</span>, <span class="hljs-number">50.</span>])<br><br>np.<span class="hljs-built_in">sum</span>(a,axis = <span class="hljs-number">1</span>)<br>axis为<span class="hljs-number">1</span>是压缩列,即将每一行的元素相加,将矩阵压缩为一列，输出：array([<span class="hljs-number">15.</span>, <span class="hljs-number">40.</span>, <span class="hljs-number">65.</span>, <span class="hljs-number">90.</span>])<br><br></code></pre></td></tr></table></figure>
+<h2 id="索引进阶"><a href="#索引进阶" class="headerlink" title="索引进阶"></a>索引进阶</h2><h3 id="花式索引"><a href="#花式索引" class="headerlink" title="花式索引"></a>花式索引</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">10</span>) <span class="hljs-comment"># 0起点，99终点，步长为10</span><br>indices = [<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, -<span class="hljs-number">1</span>] <span class="hljs-comment">#选择索引1，5和最后一个元素</span><br>b = a[indices]<br><span class="hljs-built_in">print</span>(a) <span class="hljs-comment"># &gt;&gt;&gt;[ 0 10 20 30 40 50 60 70 80 90]</span><br><span class="hljs-built_in">print</span>(b) <span class="hljs-comment"># &gt;&gt;&gt;[10 50 90]</span><br></code></pre></td></tr></table></figure>
+<h3 id="缺省索引"><a href="#缺省索引" class="headerlink" title="缺省索引"></a>缺省索引</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">10</span>)<br>b = a[a &gt;= <span class="hljs-number">60</span>]<br><span class="hljs-built_in">print</span>(b)<br></code></pre></td></tr></table></figure>
+<h3 id="where函数"><a href="#where函数" class="headerlink" title="where函数"></a>where函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">10</span>)<br>b = np.where(a &lt; <span class="hljs-number">50</span>) <br>c = np.where(a &gt;= <span class="hljs-number">50</span>)[<span class="hljs-number">0</span>]<br><span class="hljs-built_in">print</span>(b) <span class="hljs-comment"># &gt;&gt;&gt;(array([0, 1, 2, 3, 4]),)</span><br><span class="hljs-built_in">print</span>(c) <span class="hljs-comment"># &gt;&gt;&gt;[5 6 7 8 9]</span><br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/03/Computer_Vision/cs231n/Image_Classification/">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'Terry-Joy/commit-utterance');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
